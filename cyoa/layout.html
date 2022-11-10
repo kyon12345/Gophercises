@@ -1,0 +1,17 @@
+<h1>Choose Your Adventure!</h1>
+<h2>{{.Title}}</h2>
+<ul>
+    {{range .Story}}
+        <li>
+            <span>{{.}}</span>
+        </li>
+    {{end}}
+</ul>
+<h2>GO</h2>
+<ul>
+    {{range .Options}}
+        <li>
+            <a href="/node/{{.Arc}}">{{.Text}}</a>
+        </li>
+    {{end}}
+</ul>
