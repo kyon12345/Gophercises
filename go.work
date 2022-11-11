@@ -4,5 +4,6 @@ use (
 	./cyoa
 	./link
 	./quiz-game
+	./sitemap
 	./urlshort
 )
