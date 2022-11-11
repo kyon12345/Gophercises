@@ -2,28 +2,35 @@ package main
 
 import (
 	"fmt"
-	"io"
-	"io/ioutil"
 	"log"
-	"os"
+	"strings"
 
-	"gopkg.in/yaml.v2"
+	"golang.org/x/net/html"
 )
 
-type URLMapper struct {
-	Path string
-	URL  string
-}
-
 func main() {
-
-	b, err := ioutil.ReadFile("./test.yaml")
+	s := `<p>Links:</p>
+	<ul>
+	<li><a href="foo">Foo</a><li>
+	<a href="/bar/baz">BarBaz</a>
+	</ul>`
+	doc, err := html.Parse(strings.NewReader(s))
 	if err != nil {
-		log.Fatal("fail to read", err)
+		log.Fatal(err)
 	}
-	var res []URLMapper
-	if err := yaml.Unmarshal(b, &res); err != nil {
-		log.Fatal("fail to unmarshal", err)
+	var f func(*html.Node)
+	f = func(n *html.Node) {
+		if n.Type == html.ElementNode && n.Data == "a" {
+			for _, a := range n.Attr {
+				if a.Key == "href" {
+					fmt.Println(a.Val)
+					break
+				}
+			}
+		}
+		for c := n.FirstChild; c != nil; c = c.NextSibling {
+			f(c)
+		}
 	}
-	fmt.Printf("%v,%d", res, len(res))
+	f(doc)
 }
