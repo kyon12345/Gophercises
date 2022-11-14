@@ -3,5 +3,6 @@ go 1.19
 use (
 	./link
 	./quiz-game
+	./sitemap
 	./urlshort
 )
