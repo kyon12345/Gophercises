@@ -4,5 +4,6 @@ use (
 	./link
 	./quiz-game
 	./sitemap
+	./taskManager
 	./urlshort
 )
